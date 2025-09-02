@@ -1,11 +1,21 @@
 pipeline{
   agent any
 
-stages{
+  tools {
+    maven "M3"
+    jdk "JDK17"
+  }
+
+  stages{
   stage('Git Clone'){
     steps {
       git url: 'https://github.com/harugoon603/spring-petclinic.git', branch:'main' 
     } 
+  }
+  stage('Maven Build'){
+    steps {
+      sh 'mvn -dmaven.test.failure.ignore=true clean package'
+    }
   }
  }
 }
