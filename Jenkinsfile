@@ -14,7 +14,7 @@ stages{
   }
   stage('Maven Build'){
     steps {
-      sh 'mvn -dmaven.test.failure.ignore=true clean package'
+      sh 'mvn -Dmaven.test.failure.ignore=true clean package'
     }
    }
   }
