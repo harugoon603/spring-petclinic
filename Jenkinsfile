@@ -24,7 +24,7 @@ stage('Docker Image Create'){
   steps{
     sh"""
     docker build -t harugoon/spring-petclinic:$BUILD_NUMBER .
-    docker tag harugoon/spring-petclinic:$BUILD_NUMBER harugoon603/spring-petclinic:latest
+    docker tag harugoon603/spring-petclinic:$BUILD_NUMBER harugoon603/spring-petclinic:latest
     """
      }
     }
@@ -38,5 +38,34 @@ stage('Docker Image Push'){
       sh 'docker push harugoon603/spring-petclinic:latest'
       }
      }
+
+  stage('Docker Image Remove'){
+  steps {
+    sh 'docker rmi harugoon603/spring-petclinic:latest'
+  }  
+  }  
+  stage('Publish Over SSH') {
+  steps {
+    sshPublisher(publishers: [sshPublisherDesc(configName: 'target', 
+    transfers: [sshTransfer(cleanRemote: false, 
+    excludes: '', 
+    execCommand: '''
+    dockerrm -f $(docker ps -aq)
+    docker rmi $(docker images -q)
+    docker run -itd -p 8080:8080 --name=spring-petclinic harugoon603/spring-petclinic:latest
+    ''', 
+    execTimeout: 120000, 
+    flatten: false, 
+    makeEmptyDirs: false,
+    noDefaultExcludes: false, 
+    patternSeparator: '[, ]+', 
+    remoteDirectory: '', 
+    remoteDirectorySDF: false, 
+    removePrefix: 'target', sourceFiles: '')], 
+    usePromotionTimestamp: false, 
+    useWorkspaceInPromotion: false, 
+    verbose: false)])
     }
-   }
+  }
+ }
+}
