@@ -9,7 +9,7 @@ pipeline{
 environment {
   DOCKERHUB_CREDENTIALS = credentials('dockerCredentials')
 }
-stages{
+stage{
   stage('Git Clone'){
     steps {
       git url: 'https://github.com/harugoon603/spring-petclinic.git', branch:'main' 
