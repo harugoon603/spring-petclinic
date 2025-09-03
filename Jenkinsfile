@@ -23,8 +23,8 @@ stages{
 stage('Docker Image Create'){
   steps{
     sh"""
-    docker build -t harugoon603/spring-petclinic:$BUILD_NUMBER .
-    docker tag harugoon603/spring-petclinic:$BUILD_NUMBER harugoon603/spring-petclinic:latest
+    docker build -t harugoon/spring-petclinic:$BUILD_NUMBER .
+    docker tag harugoon/spring-petclinic:$BUILD_NUMBER harugoon603/spring-petclinic:latest
     """
      }
     }
