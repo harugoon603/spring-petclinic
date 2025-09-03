@@ -6,7 +6,7 @@ pipeline{
     jdk "JDK17"
   }
 
-environment{
+environment {
   DOCKERHUB_CREDENTIALS = credentials('dockerCredentials')
 }
 stages{
@@ -33,8 +33,8 @@ stage('Docker Hub Login'){
     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
   }
 }
-  stage('Docker Image Push'){
-    steps {
+stage('Docker Image Push'){
+  steps {
       sh 'docker push harugoon603/spring-petclinic:latest'
       }
      }
